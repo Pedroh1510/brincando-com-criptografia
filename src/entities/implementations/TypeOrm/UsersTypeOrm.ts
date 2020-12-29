@@ -12,4 +12,10 @@ export class UsersTypeOrm implements Users {
 
   @Column()
   name: string
+
+  @Column()
+  document: string
+
+  @Column()
+  email: string
 }

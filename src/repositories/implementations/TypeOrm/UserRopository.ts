@@ -12,12 +12,12 @@ export class UserRepository implements IUserRepository {
     await connectionDb.manager.save(connectionUser)
   }
 
-  async findByName(name: string): Promise<Users> {
+  async findByEmail(email: string): Promise<Users> {
     const connectionDb = typeOrmHelper.connection
 
     const user: Users = await connectionDb
       .getRepository(UsersTypeOrm)
-      .findOne(name)
+      .findOne(email)
 
     return user
   }
