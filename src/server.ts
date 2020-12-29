@@ -1,3 +1,7 @@
+import { sqliteTypeOrmConnection } from './repositories/implementations/TypeOrm/config'
+import { typeOrmHelper } from './repositories/implementations/TypeOrm/helper/typeOrmHelper'
 import app from './app'
 
-app.listen(3333, () => console.log('Server is running'))
+typeOrmHelper.connect(sqliteTypeOrmConnection).then(async () => {
+  app.listen(3333, () => console.log('Server is running'))
+})
