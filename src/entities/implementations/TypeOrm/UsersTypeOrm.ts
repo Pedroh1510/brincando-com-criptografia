@@ -19,9 +19,12 @@ export class UsersTypeOrm implements Users {
   @Column()
   email: string
 
-  @Column()
+  @Column({ nullable: true })
   token?: string
 
-  @Column()
+  @Column({ nullable: true })
   tokenExpiresOn?: Date
+
+  @Column()
+  password: string
 }

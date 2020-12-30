@@ -8,6 +8,7 @@ export class Users {
   public document: string
   public token?: string
   public tokenExpiresOn?: Date
+  public password: string
 
   constructor(props: Omit<Users, 'id'>) {
     Object.assign(this, props)
@@ -15,5 +16,6 @@ export class Users {
       this.id = uuid()
     }
     this.document = hashString(this.document)
+    this.password = hashString(this.password)
   }
 }
