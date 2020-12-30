@@ -17,7 +17,7 @@ export class UserRepository implements IUserRepository {
 
     const user: Users = await connectionDb
       .getRepository(UsersTypeOrm)
-      .findOne(email)
+      .findOne({ where: { email } })
 
     return user
   }

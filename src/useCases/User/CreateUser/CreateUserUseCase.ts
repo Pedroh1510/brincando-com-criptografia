@@ -13,7 +13,6 @@ export class CreateUserUseCase {
       email: data.userEmail,
       document: data.userDocument
     })
-    console.log(user)
 
     await this.userRepository.save(user)
   }
