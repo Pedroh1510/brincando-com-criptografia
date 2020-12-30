@@ -1,6 +1,6 @@
 import { LoginUserUseCase } from './LoginUserUseCase'
 import { Response, Request } from 'express'
-import { IControllerDTO } from './../../../util/IControllerDTO'
+import { IControllerDTO } from '@util/IControllerDTO'
 
 export class LoginUserController implements IControllerDTO {
   constructor(private loginUserUseCase: LoginUserUseCase) {}

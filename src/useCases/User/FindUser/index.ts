@@ -1,4 +1,4 @@
-import { UserRepository } from '../../../repositories/implementations/TypeOrm/UserRopository'
+import { UserRepository } from '@repositories/implementations/TypeOrm/UserRopository'
 import { FindUserController } from './FindUserController'
 import { FindUserUseCase } from './FindUserUseCase'
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { IControllerDTO } from './../../../util/IControllerDTO'
+import { IControllerDTO } from '@util/IControllerDTO'
 import { FindUserUseCase } from './FindUserUseCase'
 
 export class FindUserController implements IControllerDTO {

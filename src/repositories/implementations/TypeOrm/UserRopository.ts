@@ -1,5 +1,5 @@
-import { Users } from './../../../entities/Users'
-import { UsersTypeOrm } from './../../../entities/implementations/TypeOrm/UsersTypeOrm'
+import { Users } from '@entities/Users'
+import { UsersTypeOrm } from '@entities/implementations/TypeOrm/UsersTypeOrm'
 import { IUserRepository } from './../../IUserRepository'
 import { typeOrmHelper } from './helper/typeOrmHelper'
 

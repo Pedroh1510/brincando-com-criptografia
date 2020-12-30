@@ -1,7 +1,7 @@
 import {
   UsersDocumentsTypeOrm,
   UsersTypeOrm
-} from './../../../entities/implementations/TypeOrm'
+} from '@entities/implementations/TypeOrm'
 import { ConnectionOptions } from 'typeorm'
 
 import { resolve } from 'path'

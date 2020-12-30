@@ -1,4 +1,4 @@
-import { hashString } from '../util/cryptography'
+import { hashString } from '@util/cryptography'
 import { uuid } from 'uuidv4'
 
 export class Users {

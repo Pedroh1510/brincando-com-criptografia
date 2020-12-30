@@ -1,6 +1,6 @@
-import { generateToken } from './../../../util/jwt'
-import { validateHashedString } from './../../../util/cryptography'
-import { IUserRepository } from './../../../repositories/IUserRepository'
+import { generateToken } from '@util/jwt'
+import { validateHashedString } from '@util/cryptography'
+import { IUserRepository } from '@repositories/IUserRepository'
 import { ILoginUserRequestDTO, ILoginUserResponseDTO } from './LoginUserDTO'
 
 export class LoginUserUseCase {

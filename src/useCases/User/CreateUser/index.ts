@@ -1,6 +1,6 @@
 import { CreateUserController } from './CreateUserController'
 import { CreateUserUseCase } from './CreateUserUseCase'
-import { UserRepository } from '../../../repositories/implementations/TypeOrm/UserRopository'
+import { UserRepository } from '@repositories/implementations/TypeOrm/UserRopository'
 
 const userRepository = new UserRepository()
 
