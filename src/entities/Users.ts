@@ -6,6 +6,8 @@ export class Users {
   public name: string
   public email: string
   public document: string
+  public token?: string
+  public tokenExpiresOn?: Date
 
   constructor(props: Omit<Users, 'id'>) {
     Object.assign(this, props)

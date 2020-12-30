@@ -18,4 +18,10 @@ export class UsersTypeOrm implements Users {
 
   @Column()
   email: string
+
+  @Column()
+  token?: string
+
+  @Column()
+  tokenExpiresOn?: Date
 }
