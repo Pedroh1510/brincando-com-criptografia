@@ -18,4 +18,7 @@ export class UsersDocumentsTypeOrm implements UsersDocuments {
 
   @Column()
   value: number
+
+  @Column()
+  userId: string
 }
