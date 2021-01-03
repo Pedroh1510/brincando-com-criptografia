@@ -13,7 +13,7 @@ export class LoginUserUseCase {
       throw new Error('Invalid password')
     }
 
-    user.token = generateToken(user.id)
+    user.token = generateToken({ userId: user.id })
 
     await this.userRepository.save(user)
 
