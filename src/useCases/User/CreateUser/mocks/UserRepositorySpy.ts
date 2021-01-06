@@ -1,7 +1,7 @@
 import { Users } from '@entities/Users'
 import { IUserRepository } from '@repositories/IUserRepository'
 
-export class UserRepository implements IUserRepository {
+export class UserRepositorySpy implements IUserRepository {
   user: Users
   async save(data: Users): Promise<void> {
     this.user = data

@@ -1,7 +1,7 @@
-import { UserError } from './../../../util/errors'
+import { UserError } from '@util/errors'
 import { Users } from '@entities/Users'
 import { ICreateUserDTO } from './CreateUserDTO'
-import { UserRepository } from './mocks/UserRepositorySpy'
+import { UserRepositorySpy } from './mocks/UserRepositorySpy'
 import { CreateUserUseCase } from './CreateUserUseCase'
 import faker from 'faker'
 
@@ -21,7 +21,7 @@ const makeUser = (): Users => {
   return user
 }
 const makeSut = () => {
-  const userRepositorySpy = new UserRepository()
+  const userRepositorySpy = new UserRepositorySpy()
   const sut = new CreateUserUseCase(userRepositorySpy)
   return { sut, userRepositorySpy }
 }

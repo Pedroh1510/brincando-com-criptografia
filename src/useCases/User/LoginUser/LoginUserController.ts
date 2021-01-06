@@ -1,16 +1,35 @@
+import { ILoginUserRequestDTO } from './LoginUserDTO'
 import { LoginUserUseCase } from './LoginUserUseCase'
 import { Response, Request } from 'express'
 import { IControllerDTO } from '@util/IControllerDTO'
+import { MissingParamError } from '@util/errors'
+import { HttpResponse } from '@util/httpErrors'
 
 export class LoginUserController implements IControllerDTO {
   constructor(private loginUserUseCase: LoginUserUseCase) {}
   async handle(request: Request, response: Response): Promise<Response> {
-    try {
-      const data = await this.loginUserUseCase.execute(request.body)
+    const data: ILoginUserRequestDTO = request.body
 
-      return response.status(200).json(data)
+    if (!data.email) {
+      const error = new MissingParamError('email')
+      const httpResponse = HttpResponse.badRequest(error)
+      return response.send(httpResponse.statusCode).send(httpResponse.body)
+    }
+    if (!data.password) {
+      const error = new MissingParamError('password')
+      const httpResponse = HttpResponse.badRequest(error)
+      return response.send(httpResponse.statusCode).send(httpResponse.body)
+    }
+
+    try {
+      const content = await this.loginUserUseCase.execute(request.body)
+
+      const httpResponse = HttpResponse.ok(content)
+
+      return response.status(httpResponse.statusCode).json(httpResponse.body)
     } catch (error) {
-      return response.status(400).send()
+      const httpResponse = HttpResponse.serverError()
+      return response.status(httpResponse.statusCode).send(httpResponse.body)
     }
   }
 }
