@@ -1,3 +1,4 @@
+import { hashString } from '@util/cryptography'
 import { uuid } from 'uuidv4'
 
 export class UsersDocuments {
@@ -11,5 +12,6 @@ export class UsersDocuments {
     if (!this.id) {
       this.id = uuid()
     }
+    this.creditCardToken = hashString(this.creditCardToken)
   }
 }
