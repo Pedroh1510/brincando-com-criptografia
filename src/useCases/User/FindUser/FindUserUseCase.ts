@@ -1,4 +1,5 @@
 import { UserRepository } from '@repositories/implementations/TypeOrm/UserRopository'
+import { UserError } from '@util/errors'
 import { IFindUserRequestDTO, IFindUserResponseDTO } from './FindUserDTO'
 
 export class FindUserUseCase {
@@ -6,7 +7,7 @@ export class FindUserUseCase {
   async execute(data: IFindUserRequestDTO): Promise<IFindUserResponseDTO> {
     const user = await this.userRepository.findByEmail(data.userEmail)
 
-    if (!user.name) throw new Error("User doesn't exist")
+    if (!user) throw new UserError("User doesn't exist")
 
     return {
       userName: user.name,
