@@ -8,8 +8,6 @@ interface DecodedTokenDTO {
 }
 
 export const generateToken = (data: TokenDTO): string => {
-  console.log(process.env.SECRET_TIME)
-
   return jwt.sign({ data }, process.env.SECRET, {
     expiresIn: process.env.SECRET_TIME
   })
