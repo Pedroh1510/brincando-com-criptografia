@@ -1,9 +1,9 @@
 import { UserError } from '@util/errors'
 import { Users } from '@entities/Users'
 import { ICreateUserDTO } from './CreateUserDTO'
-import { UserRepositorySpy } from './mocks/UserRepositorySpy'
 import { CreateUserUseCase } from './CreateUserUseCase'
 import faker from 'faker'
+import { UserRepositorySpy } from '../mocks/UserRepositorySpy'
 
 const makeRequest: ICreateUserDTO = {
   userEmail: faker.internet.email(),
