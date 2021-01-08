@@ -1,3 +1,4 @@
+import { UserError } from '@util/errors'
 import { generateToken } from '@util/jwt'
 import { validateHashedString } from '@util/cryptography'
 import { IUserRepository } from '@repositories/IUserRepository'
@@ -7,10 +8,10 @@ export class LoginUserUseCase {
   constructor(private userRepository: IUserRepository) {}
   async execute(data: ILoginUserRequestDTO): Promise<ILoginUserResponseDTO> {
     const user = await this.userRepository.findByEmail(data.email)
-    if (!user) throw new Error("User doesn't exist")
+    if (!user) throw new UserError("User doesn't exist")
 
     if (!(await validateHashedString(data.password, user.password))) {
-      throw new Error('Invalid password')
+      throw new UserError('Invalid password')
     }
 
     user.token = generateToken({ userId: user.id })
