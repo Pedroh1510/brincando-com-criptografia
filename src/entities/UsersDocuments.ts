@@ -1,5 +1,5 @@
 import { hashString } from '@util/cryptography'
-import { uuid } from 'uuidv4'
+import { v4 as uuid } from 'uuid'
 
 export class UsersDocuments {
   public readonly id: string
