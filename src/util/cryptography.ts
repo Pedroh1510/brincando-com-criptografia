@@ -1,4 +1,4 @@
-import { hash, compare, hashSync } from 'bcrypt'
+import { compare, hashSync } from 'bcrypt'
 
 const secretNumber = parseInt(process.env.SECRET_NUMBER)
 
