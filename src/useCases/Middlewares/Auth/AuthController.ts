@@ -10,9 +10,10 @@ export class AuthController {
     next: NextFunction
   ): Promise<void | Response> {
     try {
-      await this.authUseCase.execute(
+      const data = await this.authUseCase.execute(
         (request.headers as unknown) as IAuthDTORequest
       )
+      request.body.auth = data
       return next()
     } catch (error) {
       return response.status(401).send(error)
