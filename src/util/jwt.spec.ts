@@ -1,3 +1,4 @@
+import { UnauthorizedError } from './errors'
 import { generateToken, TokenDTO, validadeToken } from './jwt'
 
 describe('Test funções token', () => {
@@ -25,6 +26,8 @@ describe('Test funções token', () => {
 
   test('Gera uma exceção', () => {
     const error = 'token invalido'
-    expect(() => validadeToken('token', error)).toThrowError(new Error(error))
+    expect(() => validadeToken('token', error)).toThrowError(
+      new UnauthorizedError(error)
+    )
   })
 })

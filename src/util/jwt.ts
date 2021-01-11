@@ -1,3 +1,4 @@
+import { UnauthorizedError } from './errors'
 import jwt from 'jsonwebtoken'
 
 export interface TokenDTO {
@@ -19,7 +20,7 @@ export const validadeToken = (
 ): TokenDTO => {
   let data: TokenDTO
   jwt.verify(token, process.env.SECRET, (err, decoded: DecodedTokenDTO) => {
-    if (err) throw new Error(messageError)
+    if (err) throw new UnauthorizedError(messageError)
     data = decoded.data
   })
 

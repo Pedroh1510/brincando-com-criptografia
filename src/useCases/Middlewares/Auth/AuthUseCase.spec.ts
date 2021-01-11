@@ -1,3 +1,4 @@
+import { UnauthorizedError } from './../../../util/errors'
 import { generateToken } from '@util/jwt'
 import { AuthUseCase } from './AuthUseCase'
 
@@ -29,6 +30,8 @@ describe('Test Auth UseCase', () => {
       authorization: 'token_invalid'
     })
     // eslint-disable-next-line jest/valid-expect
-    expect(response).rejects.toThrowError(new Error('Erro token invalido'))
+    expect(response).rejects.toThrowError(
+      new UnauthorizedError('Erro token invalido')
+    )
   })
 })

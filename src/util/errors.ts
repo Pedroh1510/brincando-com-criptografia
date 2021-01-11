@@ -13,8 +13,8 @@ export class ServerError extends Error {
 }
 
 export class UnauthorizedError extends Error {
-  constructor() {
-    super('Unauthorized')
+  constructor(paramName: string) {
+    super(`Unauthorized ${paramName}`)
     this.name = 'UnauthorizedError'
   }
 }
