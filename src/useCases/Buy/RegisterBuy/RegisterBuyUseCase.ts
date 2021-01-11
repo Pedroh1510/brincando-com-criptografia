@@ -1,3 +1,4 @@
+import { UserError } from '@util/errors'
 import { UsersDocuments } from '@entities/UsersDocuments'
 import { IBuyRepository } from '@repositories/IBuyRepository'
 import { IRegisterBuyDTORequest } from './RegisterBuyDTO'
@@ -7,7 +8,7 @@ export class RegisterBuyUseCase {
   async execute(data: IRegisterBuyDTORequest): Promise<void> {
     const user = await this.buyRepository.findUserById(data.auth.userId)
 
-    if (!user) throw new Error("User doesn't exist")
+    if (!user) throw new UserError("User doesn't exist")
 
     const { value, card, auth } = data
     const { userId } = auth
