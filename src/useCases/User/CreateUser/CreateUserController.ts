@@ -34,7 +34,7 @@ export class CreateUserController implements IControllerDTO {
     try {
       await this.createUserUseCase.execute(data)
 
-      const httpResponse = HttpResponse.ok()
+      const httpResponse = HttpResponse.noContent()
 
       return response.status(httpResponse.statusCode).send(httpResponse.body)
     } catch (err) {

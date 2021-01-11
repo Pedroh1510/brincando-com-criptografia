@@ -13,6 +13,13 @@ export class HttpResponse {
     }
   }
 
+  static noContent(): HttpResponseDTO {
+    return {
+      statusCode: 201,
+      body: {}
+    }
+  }
+
   static badRequest(error): HttpResponseDTO {
     return {
       statusCode: 400,

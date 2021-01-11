@@ -1,11 +1,10 @@
 import { IRegisterBuyDTORequest } from './RegisterBuyDTO'
 import { BuyRepositorySpy } from '../mocks/BuyRepositorySpy'
 import { RegisterBuyUseCase } from './RegisterBuyUseCase'
-import { makeFakeUser, makeFakeUserData } from '@util/makeFaker'
+import { makeFakeUser } from '@util/makeFaker'
 import faker from 'faker'
 import { UserError } from '@util/errors'
 
-const makeUserData = makeFakeUserData()
 const makeUser = makeFakeUser()
 
 const makeRequest: IRegisterBuyDTORequest = {

@@ -19,7 +19,7 @@ export const makeFakeUser = (
 export const makeFakeUserData = () => {
   return {
     document: faker.internet.email(),
-    email: faker.internet.userAgent(),
+    email: faker.internet.email(),
     name: faker.name.firstName(),
     password: faker.internet.password()
   }

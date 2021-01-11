@@ -13,9 +13,27 @@ export const sqliteTypeOrmConnection: ConnectionOptions = {
     '..',
     '..',
     '..',
+    '..',
     'database',
     'sqlite',
     'data.sqlite'
+  ),
+  entities: [UsersDocumentsTypeOrm, UsersTypeOrm],
+  synchronize: true
+}
+
+export const sqliteTypeOrmConnectionTest: ConnectionOptions = {
+  type: 'sqlite',
+  database: resolve(
+    __dirname,
+    '..',
+    '..',
+    '..',
+    '..',
+    '..',
+    'database',
+    'test',
+    'test.sqlite'
   ),
   entities: [UsersDocumentsTypeOrm, UsersTypeOrm],
   synchronize: true
