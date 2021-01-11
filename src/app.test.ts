@@ -72,4 +72,10 @@ describe('Test integration app post /users', () => {
 
     expect(response.status).toBe(400)
   })
+  test('Create user return server error', async () => {
+    await typeOrmHelper.disconnect()
+    const response = await request(app).post('/users').send(makeRequest)
+
+    expect(response.status).toBe(500)
+  })
 })
