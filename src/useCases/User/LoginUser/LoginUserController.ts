@@ -2,7 +2,6 @@ import { ILoginUserRequestDTO } from './LoginUserDTO'
 import { LoginUserUseCase } from './LoginUserUseCase'
 import { Response, Request } from 'express'
 import { IControllerDTO } from '@util/IControllerDTO'
-import { MissingParamError } from '@util/errors'
 import { HttpResponse } from '@util/httpErrors'
 
 export class LoginUserController implements IControllerDTO {

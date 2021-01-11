@@ -1,4 +1,3 @@
-import { MissingParamError } from '@util/errors'
 import { IRegisterBuyDTORequest } from './RegisterBuyDTO'
 import { IControllerDTO } from '@util/IControllerDTO'
 import { Request, Response } from 'express'

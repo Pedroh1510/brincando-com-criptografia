@@ -1,4 +1,3 @@
-import { MissingParamError } from './../../../util/errors'
 import { IControllerDTO } from '@util/IControllerDTO'
 import { CreateUserUseCase } from './CreateUserUseCase'
 import { Request, Response } from 'express'

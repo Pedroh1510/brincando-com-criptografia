@@ -2,7 +2,6 @@ import { IFindUserRequestDTO } from './FindUserDTO'
 import { Request, Response } from 'express'
 import { IControllerDTO } from '@util/IControllerDTO'
 import { FindUserUseCase } from './FindUserUseCase'
-import { MissingParamError } from '@util/errors'
 import { HttpResponse } from '@util/httpErrors'
 
 export class FindUserController implements IControllerDTO {
