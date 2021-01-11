@@ -10,19 +10,8 @@ export class LoginUserController implements IControllerDTO {
   async handle(request: Request, response: Response): Promise<Response> {
     const data: ILoginUserRequestDTO = request.body
 
-    if (!data.email) {
-      const error = new MissingParamError('email')
-      const httpResponse = HttpResponse.badRequest(error)
-      return response.send(httpResponse.statusCode).send(httpResponse.body)
-    }
-    if (!data.password) {
-      const error = new MissingParamError('password')
-      const httpResponse = HttpResponse.badRequest(error)
-      return response.send(httpResponse.statusCode).send(httpResponse.body)
-    }
-
     try {
-      const content = await this.loginUserUseCase.execute(request.body)
+      const content = await this.loginUserUseCase.execute(data)
 
       const httpResponse = HttpResponse.ok(content)
 

@@ -10,14 +10,8 @@ export class FindUserController implements IControllerDTO {
   async handle(request: Request, response: Response): Promise<Response> {
     const data: IFindUserRequestDTO = request.body
 
-    if (!data.userEmail) {
-      const error = new MissingParamError('userEmail')
-      const httpResponse = HttpResponse.badRequest(error)
-      return response.send(httpResponse.statusCode).send(httpResponse.body)
-    }
-
     try {
-      const content = await this.findUserUseCase.execute(request.body)
+      const content = await this.findUserUseCase.execute(data)
 
       const httpResponse = HttpResponse.ok(content)
 

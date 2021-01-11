@@ -10,19 +10,8 @@ export class RegisterBuyController implements IControllerDTO {
   async handle(request: Request, response: Response): Promise<Response> {
     const data: IRegisterBuyDTORequest = request.body
 
-    if (!data.card) {
-      const error = new MissingParamError('card')
-      const httpResponse = HttpResponse.badRequest(error)
-      return response.send(httpResponse.statusCode).send(httpResponse.body)
-    }
-    if (!data.value) {
-      const error = new MissingParamError('value')
-      const httpResponse = HttpResponse.badRequest(error)
-      return response.send(httpResponse.statusCode).send(httpResponse.body)
-    }
-
     try {
-      await this.registerBuyUseCase.execute(request.body)
+      await this.registerBuyUseCase.execute(data)
 
       const httpResponse = HttpResponse.ok()
 

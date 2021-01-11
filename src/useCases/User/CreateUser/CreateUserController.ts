@@ -10,27 +10,6 @@ export class CreateUserController implements IControllerDTO {
   async handle(request: Request, response: Response): Promise<Response> {
     const data: ICreateUserDTO = request.body
 
-    if (!data.userEmail) {
-      const error = new MissingParamError('userEmail')
-      const httpResponse = HttpResponse.badRequest(error)
-      return response.send(httpResponse.statusCode).send(httpResponse.body)
-    }
-    if (!data.userDocument) {
-      const error = new MissingParamError('userDocument')
-      const httpResponse = HttpResponse.badRequest(error)
-      return response.send(httpResponse.statusCode).send(httpResponse.body)
-    }
-    if (!data.userName) {
-      const error = new MissingParamError('userName')
-      const httpResponse = HttpResponse.badRequest(error)
-      return response.send(httpResponse.statusCode).send(httpResponse.body)
-    }
-    if (!data.userPassword) {
-      const error = new MissingParamError('userPassword')
-      const httpResponse = HttpResponse.badRequest(error)
-      return response.send(httpResponse.statusCode).send(httpResponse.body)
-    }
-
     try {
       await this.createUserUseCase.execute(data)
 
