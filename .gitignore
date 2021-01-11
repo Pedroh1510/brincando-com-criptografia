@@ -3,3 +3,4 @@ database
 .env
 request/*
 *.log
+coverage
