@@ -14,9 +14,6 @@ export class UsersDocumentsTypeOrm implements UsersDocuments {
   creditCardToken: string
 
   @Column()
-  userDocument: string
-
-  @Column()
   value: number
 
   @Column()
