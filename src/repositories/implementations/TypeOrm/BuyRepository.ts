@@ -11,6 +11,7 @@ import { typeOrmHelper } from './helper/typeOrmHelper'
 export class BuyRepository implements IBuyRepository {
   private connectionDb = typeOrmHelper.connection
   async findUserById(id: string): Promise<Users> {
+    this.reconnect()
     const user: Users = await this.connectionDb
       .getRepository(UsersTypeOrm)
       .findOne({ where: { id } })
@@ -22,5 +23,9 @@ export class BuyRepository implements IBuyRepository {
     const userDocument = new UsersDocumentsTypeOrm(document)
 
     await this.connectionDb.manager.save(userDocument)
+  }
+
+  private reconnect() {
+    if (this.connectionDb === null) this.connectionDb = typeOrmHelper.connection
   }
 }
