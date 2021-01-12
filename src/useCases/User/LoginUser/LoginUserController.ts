@@ -17,7 +17,7 @@ export class LoginUserController implements IControllerDTO {
       return response.status(httpResponse.statusCode).json(httpResponse.body)
     } catch (error) {
       const httpResponse = HttpResponse.serverError()
-      return response.status(httpResponse.statusCode).send(httpResponse.body)
+      return response.status(httpResponse.statusCode).send(error)
     }
   }
 }

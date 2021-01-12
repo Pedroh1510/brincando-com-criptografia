@@ -103,3 +103,41 @@ describe('Test integration app get /users', () => {
     expect(response.status).toBe(500)
   })
 })
+
+describe('Test integration app post /users/login', () => {
+  const makeRequestLogin = ({ userEmail, userPassword }: makeRequestDTO) => {
+    return {
+      email: userEmail || makeData.email,
+      password: userPassword || makeData.password
+    }
+  }
+  initIntegrationTest()
+
+  test('Login user', async () => {
+    await request(app).post('/users').send(makeRequest({}))
+    const response = await request(app)
+      .post('/users/login')
+      .send(makeRequestLogin({}))
+
+    expect(response.status).toBe(200)
+    expect(response.body.token).toBeTruthy()
+  })
+
+  test('Login user return error invalid email', async () => {
+    const response = await request(app)
+      .post('/users/login')
+      .send(makeRequestLogin({ userEmail: 'invalid email' }))
+
+    expect(response.status).toBe(400)
+  })
+
+  test('Login user return server error', async () => {
+    await request(app).post('/users').send(makeRequest({}))
+    await typeOrmHelper.disconnect()
+    const response = await request(app)
+      .post('/users/login')
+      .send(makeRequestLogin({}))
+
+    expect(response.status).toBe(500)
+  })
+})
