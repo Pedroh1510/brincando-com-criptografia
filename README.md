@@ -1,5 +1,7 @@
 # Criptografia
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7c01b9827f984a0f854e6ff384c03e2b)](https://app.codacy.com/gh/Pedroh1510/brincando-com-criptografia?utm_source=github.com&utm_medium=referral&utm_content=Pedroh1510/brincando-com-criptografia&utm_campaign=Badge_Grade_Settings)
+
 Aplicação desenvolvida a partir do desafio [backend-br](https://github.com/backend-br/desafios/tree/master/2%20-%20Medium/Criptografia). Com o intuito de praticar a aplicação de criptografia em dados sensíveis, autenticação e autorização para acesso aos dados.
 
 ## Tecnologias
