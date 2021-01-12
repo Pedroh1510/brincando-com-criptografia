@@ -79,3 +79,43 @@ describe('Test integration app post /users', () => {
     expect(response.status).toBe(500)
   })
 })
+
+describe('Test integration app get /users', () => {
+  beforeAll(async () => {
+    await typeOrmHelper.connect(sqliteTypeOrmConnectionTest)
+  })
+
+  afterAll(async () => {
+    await typeOrmHelper.clear()
+    await typeOrmHelper.disconnect()
+  })
+
+  beforeEach(async () => {
+    await typeOrmHelper.clear()
+  })
+
+  test('Get data for user', async () => {
+    const { userEmail } = makeRequest
+    await request(app).post('/users').send(makeRequest)
+
+    const response = await request(app).get(`/users?userEmail=${userEmail}`)
+
+    expect(response.status).toBe(200)
+    expect(response.body.userEmail).toBe(makeRequest.userEmail)
+  })
+
+  test('Get data return error invalid email', async () => {
+    const userEmail = 'invalid'
+    const response = await request(app).get(`/users?userEmail=${userEmail}`)
+
+    expect(response.status).toBe(400)
+  })
+
+  test('Get data return serverError', async () => {
+    await typeOrmHelper.disconnect()
+    const { userEmail } = makeRequest
+    const response = await request(app).get(`/users?userEmail=${userEmail}`)
+
+    expect(response.status).toBe(500)
+  })
+})
