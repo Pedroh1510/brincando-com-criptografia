@@ -7,7 +7,7 @@ import { HttpResponse } from '@util/httpErrors'
 export class FindUserController implements IControllerDTO {
   constructor(private findUserUseCase: FindUserUseCase) {}
   async handle(request: Request, response: Response): Promise<Response> {
-    const data: IFindUserRequestDTO = request.body
+    const data = (request.query as unknown) as IFindUserRequestDTO
 
     try {
       const content = await this.findUserUseCase.execute(data)
