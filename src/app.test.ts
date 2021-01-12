@@ -1,4 +1,4 @@
-import { sqliteTypeOrmConnectionTest } from './repositories/implementations/TypeOrm/config/config'
+import { initIntegrationTest } from './util/testUtil'
 import request from 'supertest'
 import { makeFakeUserData } from '@util/makeFaker'
 import app from './app'
@@ -6,102 +6,86 @@ import { typeOrmHelper } from '@repositories/implementations/TypeOrm/helper/type
 
 const makeData = makeFakeUserData()
 
-const makeRequest = {
-  userDocument: makeData.document,
-  userEmail: makeData.email,
-  userName: makeData.name,
-  userPassword: makeData.password
+interface makeRequestDTO {
+  userDocument?: string
+  userEmail?: string
+  userName?: string
+  userPassword?: string
+}
+
+const makeRequest = ({
+  userDocument,
+  userEmail,
+  userName,
+  userPassword
+}: makeRequestDTO) => {
+  return {
+    userDocument: userDocument || makeData.document,
+    userEmail: userEmail || makeData.email,
+    userName: userName || makeData.name,
+    userPassword: userPassword || makeData.password
+  }
 }
 
 describe('Test integration app post /users', () => {
-  beforeAll(async () => {
-    await typeOrmHelper.connect(sqliteTypeOrmConnectionTest)
-  })
-
-  afterAll(async () => {
-    await typeOrmHelper.clear()
-    await typeOrmHelper.disconnect()
-  })
-
-  beforeEach(async () => {
-    await typeOrmHelper.clear()
-  })
+  initIntegrationTest()
 
   test('Create user', async () => {
-    const response = await request(app).post('/users').send(makeRequest)
+    const response = await request(app).post('/users').send(makeRequest({}))
 
     expect(response.status).toBe(201)
   })
 
   test('Create user return error invalid email', async () => {
-    const { userDocument, userName, userPassword } = makeRequest
-    const userEmail = 'invalid email'
     const response = await request(app)
       .post('/users')
-      .send({ userDocument, userName, userPassword, userEmail })
+      .send(makeRequest({ userEmail: 'invalid email' }))
 
     expect(response.status).toBe(400)
   })
 
   test('Create user return error invalid name', async () => {
-    const { userDocument, userEmail, userPassword } = makeRequest
-    const userName = ''
     const response = await request(app)
       .post('/users')
-      .send({ userDocument, userName, userPassword, userEmail })
+      .send(makeRequest({ userName: '.' }))
 
     expect(response.status).toBe(400)
   })
 
   test('Create user return error invalid password', async () => {
-    const { userDocument, userName, userEmail } = makeRequest
-    const userPassword = ''
     const response = await request(app)
       .post('/users')
-      .send({ userDocument, userName, userPassword, userEmail })
+      .send(makeRequest({ userName: '.' }))
 
     expect(response.status).toBe(400)
   })
 
   test('Create user return error invalid document', async () => {
-    const { userEmail, userName, userPassword } = makeRequest
-    const userDocument = 'erro'
     const response = await request(app)
       .post('/users')
-      .send({ userDocument, userName, userPassword, userEmail })
+      .send(makeRequest({ userDocument: '.' }))
 
     expect(response.status).toBe(400)
   })
   test('Create user return server error', async () => {
     await typeOrmHelper.disconnect()
-    const response = await request(app).post('/users').send(makeRequest)
+    const response = await request(app).post('/users').send(makeRequest({}))
 
     expect(response.status).toBe(500)
   })
 })
 
 describe('Test integration app get /users', () => {
-  beforeAll(async () => {
-    await typeOrmHelper.connect(sqliteTypeOrmConnectionTest)
-  })
-
-  afterAll(async () => {
-    await typeOrmHelper.clear()
-    await typeOrmHelper.disconnect()
-  })
-
-  beforeEach(async () => {
-    await typeOrmHelper.clear()
-  })
+  initIntegrationTest()
 
   test('Get data for user', async () => {
-    const { userEmail } = makeRequest
-    await request(app).post('/users').send(makeRequest)
+    const { userEmail } = makeRequest({})
+    await request(app).post('/users').send(makeRequest({}))
 
     const response = await request(app).get(`/users?userEmail=${userEmail}`)
 
     expect(response.status).toBe(200)
-    expect(response.body.userEmail).toBe(makeRequest.userEmail)
+    expect(response.body.userEmail).toBe(makeRequest({}).userEmail)
   })
 
   test('Get data return error invalid email', async () => {
@@ -113,7 +97,7 @@ describe('Test integration app get /users', () => {
 
   test('Get data return serverError', async () => {
     await typeOrmHelper.disconnect()
-    const { userEmail } = makeRequest
+    const { userEmail } = makeRequest({})
     const response = await request(app).get(`/users?userEmail=${userEmail}`)
 
     expect(response.status).toBe(500)
