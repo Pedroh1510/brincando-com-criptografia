@@ -12,9 +12,7 @@ export class Users {
 
   constructor(props: Omit<Users, 'id'>) {
     Object.assign(this, props)
-    if (!this.id) {
-      this.id = uuid()
-    }
+    this.id = uuid()
     this.document = hashString(this.document)
     this.password = hashString(this.password)
   }

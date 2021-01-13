@@ -9,9 +9,9 @@ export class UsersDocuments {
 
   constructor(props: Omit<UsersDocuments, 'id'>) {
     Object.assign(this, props)
-    if (!this.id) {
-      this.id = uuid()
-    }
+    // if (!this.id) {
+    // }
+    this.id = uuid()
     this.creditCardToken = hashString(this.creditCardToken)
   }
 }
