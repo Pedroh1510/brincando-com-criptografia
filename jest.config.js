@@ -9,7 +9,8 @@ module.exports = {
   coverageDirectory: 'coverage',
   collectCoverageFrom: [
     'src/**/*.ts',
-    '!src/main/**'
+    '!src/**/mocks/**',
+    '!src/**/config/**'
   ],
   coverageReporters: ['json', 'lcov'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>' }),
