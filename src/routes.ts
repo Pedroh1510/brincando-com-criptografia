@@ -10,10 +10,6 @@ import { authController } from '@useCases/Middlewares/Auth'
 
 const routes = express.Router()
 
-routes.get('/', (req, res) => {
-  res.json('ok')
-})
-
 routes.post('/users', createUserValidator, (req, res) => {
   return createUserController.handle(req, res)
 })
