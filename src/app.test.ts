@@ -133,6 +133,15 @@ describe('Test integration app post /users/login', () => {
     expect(response.status).toBe(400)
   })
 
+  test('Login user return error invalid password', async () => {
+    await request(app).post('/users').send(makeRequest({}))
+    const response = await request(app)
+      .post('/users/login')
+      .send(makeRequestLogin({ userPassword: 'invalid password' }))
+
+    expect(response.status).toBe(500)
+  })
+
   test('Login user return server error', async () => {
     await request(app).post('/users').send(makeRequest({}))
     await typeOrmHelper.disconnect()
