@@ -182,6 +182,14 @@ describe('Test integration app post /purchase/register', () => {
     expect(response.status).toBe(401)
   })
 
+  test('Register purchase without token return unauthorized', async () => {
+    const response = await request(app)
+      .post('/purchase/register')
+      .send(makeRequestPurchase)
+
+    expect(response.status).toBe(401)
+  })
+
   test('Register purchase valid token but invalid user return unauthorized', async () => {
     const validTokenWithInvalidUserId =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjEyMzEyMzEyMzEyMyJ9LCJpYXQiOjE2MTA1MTAzMTYsImV4cCI6OTk5MTA1MTA2MTZ9.Xz8OGCjJ37pWUW1NG1NdxA2kFff1tEOeB_5qc0KEg44'
