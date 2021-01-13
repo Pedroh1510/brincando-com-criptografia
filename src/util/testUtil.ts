@@ -13,7 +13,8 @@ export const initIntegrationTest = () => {
 
   beforeEach(async () => {
     await typeOrmHelper.clear()
-    process.env.SECRET_TIME = '300'
+    process.env.SECRET_TIME = '30000'
     process.env.SECRET = 'test'
+    process.env.SECRET_NUMBER = '1'
   })
 }

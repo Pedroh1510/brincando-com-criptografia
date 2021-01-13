@@ -16,8 +16,6 @@ export class RegisterBuyController implements IControllerDTO {
 
       return response.status(httpResponse.statusCode).json(httpResponse.body)
     } catch (error) {
-      console.log(error)
-
       const httpResponse = HttpResponse.serverError()
       return response.status(httpResponse.statusCode).send(httpResponse.body)
     }

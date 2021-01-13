@@ -3,7 +3,7 @@ import { hashString, validateHashedString } from './cryptography'
 describe('Test funções token', () => {
   beforeEach(() => {
     jest.resetModules() // most important - it clears the cache
-    process.env.SECRET_NUMBER = '10'
+    process.env.SECRET_NUMBER = '1'
   })
 
   test('Gera um token', () => {

@@ -3,6 +3,7 @@ import request from 'supertest'
 import { makeFakeUserData } from '@util/makeFaker'
 import app from './app'
 import { typeOrmHelper } from '@repositories/implementations/TypeOrm/helper/typeOrmHelper'
+import faker from 'faker'
 
 const makeData = makeFakeUserData()
 
@@ -24,6 +25,13 @@ const makeRequest = ({
     userEmail: userEmail || makeData.email,
     userName: userName || makeData.name,
     userPassword: userPassword || makeData.password
+  }
+}
+
+const makeRequestLogin = ({ userEmail, userPassword }: makeRequestDTO) => {
+  return {
+    email: userEmail || makeData.email,
+    password: userPassword || makeData.password
   }
 }
 
@@ -105,12 +113,6 @@ describe('Test integration app get /users', () => {
 })
 
 describe('Test integration app post /users/login', () => {
-  const makeRequestLogin = ({ userEmail, userPassword }: makeRequestDTO) => {
-    return {
-      email: userEmail || makeData.email,
-      password: userPassword || makeData.password
-    }
-  }
   initIntegrationTest()
 
   test('Login user', async () => {
@@ -137,6 +139,67 @@ describe('Test integration app post /users/login', () => {
     const response = await request(app)
       .post('/users/login')
       .send(makeRequestLogin({}))
+
+    expect(response.status).toBe(500)
+  })
+})
+
+describe('Test integration app post /purchase/register', () => {
+  initIntegrationTest()
+
+  const makeRequestPurchase = {
+    card: faker.finance.creditCardNumber(),
+    value: faker.random.number()
+  }
+
+  const getValidToken = async (): Promise<string> => {
+    const responseLogin = await request(app)
+      .post('/users/login')
+      .send(makeRequestLogin({}))
+    const { token } = responseLogin.body
+    return token
+  }
+
+  beforeEach(async () => {
+    await request(app).post('/users').send(makeRequest({}))
+  })
+
+  test('Register purchase success', async () => {
+    const response = await request(app)
+      .post('/purchase/register')
+      .set('Authorization', await getValidToken())
+      .send(makeRequestPurchase)
+
+    expect(response.status).toBe(200)
+  })
+
+  test('Register purchase invalid token return unauthorized', async () => {
+    const response = await request(app)
+      .post('/purchase/register')
+      .set('Authorization', 'invalid_token')
+      .send(makeRequestPurchase)
+
+    expect(response.status).toBe(401)
+  })
+
+  test('Register purchase valid token but invalid user return unauthorized', async () => {
+    const validTokenWithInvalidUserId =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjEyMzEyMzEyMzEyMyJ9LCJpYXQiOjE2MTA1MTAzMTYsImV4cCI6OTk5MTA1MTA2MTZ9.Xz8OGCjJ37pWUW1NG1NdxA2kFff1tEOeB_5qc0KEg44'
+    const response = await request(app)
+      .post('/purchase/register')
+      .set('Authorization', validTokenWithInvalidUserId)
+      .send(makeRequestPurchase)
+
+    expect(response.status).toBe(401)
+  })
+
+  test('Register purchase return serverError', async () => {
+    const token = await getValidToken()
+    await typeOrmHelper.disconnect()
+    const response = await request(app)
+      .post('/purchase/register')
+      .set('Authorization', token)
+      .send(makeRequestPurchase)
 
     expect(response.status).toBe(500)
   })
