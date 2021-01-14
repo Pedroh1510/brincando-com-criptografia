@@ -4,3 +4,7 @@ export interface ICreateUserDTO {
   userEmail: string
   userPassword: string
 }
+
+export interface ICreateUserDTORequest {
+  body: ICreateUserDTO
+}
