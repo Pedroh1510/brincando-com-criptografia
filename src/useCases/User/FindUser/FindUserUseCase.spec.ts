@@ -1,14 +1,24 @@
 import { IFindUserRequestDTO } from './FindUserDTO'
-import { UserError } from '@util/errors'
 import { UserRepositorySpy } from '../mocks/UserRepositorySpy'
 import { FindUserUseCase } from './FindUserUseCase'
 import { makeFakeUser } from '@util/makeFaker'
+import { badRequest, forbidden, ok, serverError } from '@util/httpErrors'
+import { MissingParamError, UserError } from '@util/errors'
 
 const makeUser = makeFakeUser()
 
 const makeRequest: IFindUserRequestDTO = {
-  userEmail: makeUser.email
+  body: {
+    userEmail: makeUser.email
+  }
 }
+
+const expectResponse = {
+  userEmail: makeUser.email,
+  userId: makeUser.id,
+  userName: makeUser.name
+}
+
 const makeSut = () => {
   const userRepositorySpy = new UserRepositorySpy()
   const sut = new FindUserUseCase(userRepositorySpy)
@@ -21,14 +31,29 @@ describe('Test Find User UseCase', () => {
     userRepositorySpy.user = makeUser
     const response = await sut.execute(makeRequest)
 
-    expect(response.userName).toEqual(makeUser.name)
-    expect(response.userId).toEqual(makeUser.id)
-    expect(response.userEmail).toEqual(makeUser.email)
+    expect(response).toEqual(ok(expectResponse))
   })
-  test('Retorna um erro usuário não existe', () => {
+
+  test('Retorna um erro MissingParamError userEmail', async () => {
+    const { sut, userRepositorySpy } = makeSut()
+    userRepositorySpy.user = makeUser
+    const response = await sut.execute({ body: { userEmail: '' } })
+
+    expect(response).toEqual(badRequest(new MissingParamError('userEmail')))
+  })
+
+  test('Retorna um erro forbidden User already exists', async () => {
     const { sut } = makeSut()
-    const promise = sut.execute({ userEmail: makeUser.email })
-    // eslint-disable-next-line jest/valid-expect
-    expect(promise).rejects.toThrow(new UserError("User doesn't exist"))
+    const response = await sut.execute(makeRequest)
+
+    expect(response).toEqual(forbidden(new UserError("User doesn't exist")))
+  })
+
+  test('Retorna um erro severError', async () => {
+    const { sut, userRepositorySpy } = makeSut()
+    userRepositorySpy.returnThrow = true
+    const response = await sut.execute(makeRequest)
+
+    expect(response).toEqual(serverError())
   })
 })
