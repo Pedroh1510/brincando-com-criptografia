@@ -1,18 +1,34 @@
+import {
+  badRequest,
+  forbidden,
+  HttpResponseDTO,
+  ok,
+  serverError
+} from '@util/httpErrors'
 import { UserRepository } from '@repositories/implementations/TypeOrm/UserRopository'
-import { UserError } from '@util/errors'
-import { IFindUserRequestDTO, IFindUserResponseDTO } from './FindUserDTO'
+import { MissingParamError, UserError } from '@util/errors'
+import { IFindUserRequestDTO } from './FindUserDTO'
 
 export class FindUserUseCase {
   constructor(private userRepository: UserRepository) {}
-  async execute(data: IFindUserRequestDTO): Promise<IFindUserResponseDTO> {
-    const user = await this.userRepository.findByEmail(data.userEmail)
+  async execute(data: IFindUserRequestDTO): Promise<HttpResponseDTO> {
+    try {
+      const { userEmail } = data.body
 
-    if (!user) throw new UserError("User doesn't exist")
+      if (!userEmail) {
+        return badRequest(new MissingParamError('userEmail'))
+      }
+      const user = await this.userRepository.findByEmail(userEmail)
 
-    return {
-      userName: user.name,
-      userEmail: user.email,
-      userId: user.id
+      if (!user) return forbidden(new UserError("User doesn't exist"))
+
+      return ok({
+        userName: user.name,
+        userEmail: user.email,
+        userId: user.id
+      })
+    } catch (error) {
+      return serverError()
     }
   }
 }

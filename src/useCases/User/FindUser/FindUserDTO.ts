@@ -1,5 +1,7 @@
 export interface IFindUserRequestDTO {
-  userEmail: string
+  body: {
+    userEmail: string
+  }
 }
 
 export interface IFindUserResponseDTO {

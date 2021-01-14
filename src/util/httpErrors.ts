@@ -5,10 +5,10 @@ export interface HttpResponseDTO {
   body: any
 }
 
-export const ok = (body?: any): HttpResponseDTO => {
+export const ok = (body: any): HttpResponseDTO => {
   return {
     statusCode: 200,
-    body
+    body: body
   }
 }
 
