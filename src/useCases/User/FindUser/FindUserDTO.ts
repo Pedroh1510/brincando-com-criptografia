@@ -1,5 +1,5 @@
 export interface IFindUserRequestDTO {
-  body: {
+  query: {
     userEmail: string
   }
 }

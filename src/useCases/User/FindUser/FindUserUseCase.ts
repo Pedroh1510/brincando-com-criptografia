@@ -13,7 +13,7 @@ export class FindUserUseCase {
   constructor(private userRepository: UserRepository) {}
   async execute(data: IFindUserRequestDTO): Promise<HttpResponseDTO> {
     try {
-      const { userEmail } = data.body
+      const { userEmail } = data.query
 
       if (!userEmail) {
         return badRequest(new MissingParamError('userEmail'))

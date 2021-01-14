@@ -8,7 +8,7 @@ import { MissingParamError, UserError } from '@util/errors'
 const makeUser = makeFakeUser()
 
 const makeRequest: IFindUserRequestDTO = {
-  body: {
+  query: {
     userEmail: makeUser.email
   }
 }
@@ -37,7 +37,7 @@ describe('Test Find User UseCase', () => {
   test('Retorna um erro MissingParamError userEmail', async () => {
     const { sut, userRepositorySpy } = makeSut()
     userRepositorySpy.user = makeUser
-    const response = await sut.execute({ body: { userEmail: '' } })
+    const response = await sut.execute({ query: { userEmail: '' } })
 
     expect(response).toEqual(badRequest(new MissingParamError('userEmail')))
   })
