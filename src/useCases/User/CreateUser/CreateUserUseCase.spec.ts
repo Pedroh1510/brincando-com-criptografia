@@ -4,7 +4,7 @@ import { ICreateUserDTORequest } from './CreateUserDTO'
 import { CreateUserUseCase } from './CreateUserUseCase'
 import faker from 'faker'
 import { UserRepositorySpy } from '../mocks/UserRepositorySpy'
-import { badRequest, forbidden, noContent } from '@util/httpErrors'
+import { badRequest, forbidden, noContent, serverError } from '@util/httpErrors'
 import { makeFakeUserData } from '@util/makeFaker'
 
 interface makeRequestDTO {
@@ -95,5 +95,13 @@ describe('Test Create User UseCase', () => {
     const response = await sut.execute(makeRequest({ userPassword: '' }))
 
     expect(response).toEqual(badRequest(new MissingParamError('userPassword')))
+  })
+
+  test('Retorna um erro severError', async () => {
+    const { sut, userRepositorySpy } = makeSut()
+    userRepositorySpy.returnThrow = true
+    const response = await sut.execute(makeRequest({}))
+
+    expect(response).toEqual(serverError())
   })
 })
