@@ -179,7 +179,7 @@ describe('Test integration app post /purchase/register', () => {
       .set('Authorization', await getValidToken())
       .send(makeRequestPurchase)
 
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(201)
   })
 
   test('Register purchase invalid token return unauthorized', async () => {
