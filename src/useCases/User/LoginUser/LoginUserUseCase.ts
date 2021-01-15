@@ -1,25 +1,46 @@
-import { UserError } from '@util/errors'
+import { MissingParamError, UserError } from '@util/errors'
 import { generateToken } from '@util/jwt'
 import { validateHashedString } from '@util/cryptography'
 import { IUserRepository } from '@repositories/IUserRepository'
-import { ILoginUserRequestDTO, ILoginUserResponseDTO } from './LoginUserDTO'
+import { ILoginUserRequestDTO } from './LoginUserDTO'
+import {
+  badRequest,
+  forbidden,
+  HttpResponseDTO,
+  ok,
+  serverError,
+  unauthorizedError
+} from '@util/httpErrors'
 
 export class LoginUserUseCase {
   constructor(private userRepository: IUserRepository) {}
-  async execute(data: ILoginUserRequestDTO): Promise<ILoginUserResponseDTO> {
-    const user = await this.userRepository.findByEmail(data.email)
-    if (!user) throw new UserError("User doesn't exist")
+  async execute(data: ILoginUserRequestDTO): Promise<HttpResponseDTO> {
+    try {
+      const { email, password } = data.body
 
-    if (!(await validateHashedString(data.password, user.password))) {
-      throw new UserError('Invalid password')
-    }
+      if (!email) {
+        return badRequest(new MissingParamError('email'))
+      }
+      if (!password) {
+        return badRequest(new MissingParamError('password'))
+      }
 
-    user.token = generateToken({ userId: user.id })
+      const user = await this.userRepository.findByEmail(email)
+      if (!user) return forbidden(new UserError("User doesn't exist"))
 
-    await this.userRepository.save(user)
+      if (!(await validateHashedString(password, user.password))) {
+        return unauthorizedError()
+      }
 
-    return {
-      token: user.token
+      user.token = generateToken({ userId: user.id })
+
+      await this.userRepository.save(user)
+
+      return ok({
+        token: user.token
+      })
+    } catch (error) {
+      return serverError()
     }
   }
 }

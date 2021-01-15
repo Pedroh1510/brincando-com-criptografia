@@ -1,6 +1,8 @@
 export interface ILoginUserRequestDTO {
-  email: string
-  password: string
+  body: {
+    email: string
+    password: string
+  }
 }
 
 export interface ILoginUserResponseDTO {

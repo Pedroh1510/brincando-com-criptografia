@@ -1,8 +1,9 @@
 import { ILoginUserRequestDTO } from './LoginUserDTO'
-import { UserError } from '@util/errors'
+import { MissingParamError, UserError } from '@util/errors'
 import { UserRepositorySpy } from '../mocks/UserRepositorySpy'
 import { makeFakeUser, makeFakeUserData } from '@util/makeFaker'
 import { LoginUserUseCase } from './LoginUserUseCase'
+import { badRequest, forbidden, ok, serverError } from '@util/httpErrors'
 
 const makeUserData = makeFakeUserData()
 const makeUser = makeFakeUser(
@@ -13,8 +14,10 @@ const makeUser = makeFakeUser(
 )
 
 const makeRequest: ILoginUserRequestDTO = {
-  email: makeUserData.email,
-  password: makeUserData.password
+  body: {
+    email: makeUserData.email,
+    password: makeUserData.password
+  }
 }
 const makeSut = () => {
   const userRepositorySpy = new UserRepositorySpy()
@@ -35,22 +38,42 @@ describe('Test Login User UseCase', () => {
     userRepositorySpy.user = makeUser
     const response = await sut.execute(makeRequest)
 
-    expect(response.token).toBeTruthy()
+    expect(response).toEqual(ok({ token: userRepositorySpy.user.token }))
   })
 
-  test('Retorna um erro usuário não existe', () => {
+  test('Retorna um erro usuário não existe', async () => {
     const { sut } = makeSut()
-    const promise = sut.execute(makeRequest)
-    // eslint-disable-next-line jest/valid-expect
-    expect(promise).rejects.toThrow(new UserError("User doesn't exist"))
+    const response = await sut.execute(makeRequest)
+
+    expect(response).toEqual(forbidden(new UserError("User doesn't exist")))
   })
 
-  test('Retorna um erro senha invalida', () => {
+  test('Retorna um erro MissingParamError email', async () => {
+    const { sut } = makeSut()
+    const response = await sut.execute({ body: { email: '', password: 'any' } })
+
+    expect(response).toEqual(badRequest(new MissingParamError('email')))
+  })
+
+  test('Retorna um erro MissingParamError password', async () => {
+    const { sut } = makeSut()
+    const response = await sut.execute({ body: { email: 'any', password: '' } })
+
+    expect(response).toEqual(badRequest(new MissingParamError('password')))
+  })
+
+  test("Retorna um erro UserError User doesn't exist", async () => {
+    const { sut } = makeSut()
+    const response = await sut.execute(makeRequest)
+
+    expect(response).toEqual(forbidden(new UserError("User doesn't exist")))
+  })
+
+  test('Retorna um erro severError', async () => {
     const { sut, userRepositorySpy } = makeSut()
-    userRepositorySpy.user = makeUser
-    userRepositorySpy.isValidPassword = false
-    const promise = sut.execute(makeRequest)
-    // eslint-disable-next-line jest/valid-expect
-    expect(promise).rejects.toThrow(new UserError('Invalid password'))
+    userRepositorySpy.returnThrow = true
+    const response = await sut.execute(makeRequest)
+
+    expect(response).toEqual(serverError())
   })
 })

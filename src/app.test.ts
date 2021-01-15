@@ -139,7 +139,7 @@ describe('Test integration app post /users/login', () => {
       .post('/users/login')
       .send(makeRequestLogin({ userPassword: 'invalid password' }))
 
-    expect(response.status).toBe(500)
+    expect(response.status).toBe(401)
   })
 
   test('Login user return server error', async () => {
