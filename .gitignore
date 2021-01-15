@@ -1,6 +1,5 @@
 node_modules
 database
 .env
-request/*
 *.log
 coverage
