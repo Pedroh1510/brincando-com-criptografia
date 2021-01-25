@@ -1,4 +1,4 @@
-import { UsersDocuments } from './../../../entities'
+import { UsersDocuments } from '@entities/UsersDocuments'
 import { Column, Entity, PrimaryColumn } from 'typeorm'
 
 @Entity('UsersDocuments')

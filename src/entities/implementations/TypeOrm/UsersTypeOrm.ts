@@ -1,4 +1,4 @@
-import { Users } from './../../../entities'
+import { Users } from '@entities/Users'
 import { Column, Entity, PrimaryColumn } from 'typeorm'
 
 @Entity('Users')
