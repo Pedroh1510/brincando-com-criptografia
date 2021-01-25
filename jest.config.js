@@ -11,8 +11,10 @@ module.exports = {
     'src/**/*.ts',
     '!src/**/mocks/**',
     '!src/**/config/**',
-    '!src/server.ts'
+    '!src/server.ts',
+    '!dist/*'
   ],
   coverageReporters: ['json', 'lcov'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>' }),
+  testPathIgnorePatterns:["/node_modules/",'/dist/']
 }
