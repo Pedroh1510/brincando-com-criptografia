@@ -1,0 +1,20 @@
+version: '3'
+services:
+  api:
+    build: .
+    container_name: criptografia
+    entrypoint: ./.docker/entrypoint.sh
+    working_dir: /usr/node/app
+    restart: always
+    env_file:
+      - ./.env
+    volumes:
+      - ./:/usr/node/app
+    ports:
+      - '3333:3333'
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 128M
