@@ -1,6 +1,7 @@
 import { UnauthorizedError } from './../../../util/errors'
 import { generateToken } from '@util/jwt'
 import { AuthUseCase } from './AuthUseCase'
+import { CONFIG } from 'src/config/dotenv'
 
 const makeSut = () => {
   const sut = new AuthUseCase()
@@ -10,8 +11,8 @@ const makeSut = () => {
 describe('Test Auth UseCase', () => {
   beforeEach(() => {
     jest.resetModules() // most important - it clears the cache
-    process.env.SECRET = 'test'
-    process.env.SECRET_TIME = '864000'
+    CONFIG.SECRET = 'test'
+    CONFIG.SECRET_TIME = '864000'
   })
 
   test('Autenticação com sucesso', async () => {

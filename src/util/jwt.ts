@@ -1,5 +1,6 @@
 import { UnauthorizedError } from './errors'
 import jwt from 'jsonwebtoken'
+import { CONFIG } from 'src/config/dotenv'
 
 export interface TokenDTO {
   userId: string
@@ -9,8 +10,8 @@ interface DecodedTokenDTO {
 }
 
 export const generateToken = (data: TokenDTO): string => {
-  return jwt.sign({ data }, process.env.SECRET, {
-    expiresIn: process.env.SECRET_TIME
+  return jwt.sign({ data }, CONFIG.SECRET, {
+    expiresIn: CONFIG.SECRET_TIME
   })
 }
 
@@ -19,7 +20,7 @@ export const validadeToken = (
   messageError = 'Erro token invalido'
 ): TokenDTO => {
   let data: TokenDTO
-  jwt.verify(token, process.env.SECRET, (err, decoded: DecodedTokenDTO) => {
+  jwt.verify(token, CONFIG.SECRET, (err, decoded: DecodedTokenDTO) => {
     if (err) throw new UnauthorizedError(messageError)
     data = decoded.data
   })

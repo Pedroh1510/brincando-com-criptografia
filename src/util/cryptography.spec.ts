@@ -1,9 +1,10 @@
+import { CONFIG } from 'src/config/dotenv'
 import { hashString, validateHashedString } from './cryptography'
 
 describe('Test funções token', () => {
   beforeEach(() => {
     jest.resetModules() // most important - it clears the cache
-    process.env.SECRET_NUMBER = '1'
+    CONFIG.SECRET_NUMBER = '1'
   })
 
   test('Gera um token', () => {

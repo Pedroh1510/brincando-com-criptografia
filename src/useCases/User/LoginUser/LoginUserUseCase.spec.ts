@@ -4,6 +4,7 @@ import { UserRepositorySpy } from '../mocks/UserRepositorySpy'
 import { makeFakeUser, makeFakeUserData } from '@util/makeFaker'
 import { LoginUserUseCase } from './LoginUserUseCase'
 import { badRequest, forbidden, ok, serverError } from '@util/httpErrors'
+import { CONFIG } from 'src/config/dotenv'
 
 const makeUserData = makeFakeUserData()
 const makeUser = makeFakeUser(
@@ -28,9 +29,9 @@ const makeSut = () => {
 describe('Test Login User UseCase', () => {
   beforeEach(() => {
     jest.resetModules() // most important - it clears the cache
-    process.env.SECRET = 'test'
-    process.env.SECRET_TIME = '864000'
-    process.env.SECRET_NUMBER = '10'
+    CONFIG.SECRET = 'test'
+    CONFIG.SECRET_TIME = '864000'
+    CONFIG.SECRET_NUMBER = '10'
   })
 
   test('Realiza o login de um usuário', async () => {

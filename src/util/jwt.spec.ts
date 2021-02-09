@@ -1,11 +1,12 @@
+import { CONFIG } from 'src/config/dotenv'
 import { UnauthorizedError } from './errors'
 import { generateToken, TokenDTO, validadeToken } from './jwt'
 
 describe('Test funções token', () => {
   beforeEach(() => {
     jest.resetModules() // most important - it clears the cache
-    process.env.SECRET = 'test'
-    process.env.SECRET_TIME = '864000'
+    CONFIG.SECRET = 'test'
+    CONFIG.SECRET_TIME = '864000'
   })
 
   test('Gera um token', async () => {

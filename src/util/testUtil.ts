@@ -1,5 +1,6 @@
 import { sqliteTypeOrmConnectionTest } from '@repositories/implementations/TypeOrm/config/config'
 import { typeOrmHelper } from '@repositories/implementations/TypeOrm/helper/typeOrmHelper'
+import { CONFIG } from 'src/config/dotenv'
 
 export const initIntegrationTest = () => {
   beforeAll(async () => {
@@ -13,8 +14,8 @@ export const initIntegrationTest = () => {
 
   beforeEach(async () => {
     await typeOrmHelper.clear()
-    process.env.SECRET_TIME = '30000'
-    process.env.SECRET = 'test'
-    process.env.SECRET_NUMBER = '1'
+    CONFIG.SECRET_TIME = '30000'
+    CONFIG.SECRET = 'test'
+    CONFIG.SECRET_NUMBER = '1'
   })
 }
