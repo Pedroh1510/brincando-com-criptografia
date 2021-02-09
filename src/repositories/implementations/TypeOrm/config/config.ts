@@ -38,3 +38,14 @@ export const sqliteTypeOrmConnectionTest: ConnectionOptions = {
   entities: [UsersDocumentsTypeOrm, UsersTypeOrm],
   synchronize: true
 }
+
+export const mariaDbTypeOrmConnection: ConnectionOptions = {
+  type: 'mariadb',
+  host: process.env.MYSQL_HOST,
+  port: 3306,
+  username: process.env.MYSQL_USERNAME,
+  password: process.env.MYSQL_ROOT_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  entities: [UsersDocumentsTypeOrm, UsersTypeOrm],
+  synchronize: true
+}
